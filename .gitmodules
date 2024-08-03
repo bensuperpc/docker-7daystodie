@@ -1,0 +1,3 @@
+[submodule "Docker-7DaysToDie"]
+	path = submodule/Docker-7DaysToDie/
+	url = https://github.com/vinanrra/Docker-7DaysToDie.git
