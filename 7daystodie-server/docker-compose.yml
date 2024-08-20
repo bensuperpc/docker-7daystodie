@@ -1,32 +1,4 @@
-version: "3.8"
-
 services:
-  mc-proxy:
-    image: itzg/bungeecord:latest
-    container_name: minecraft-proxy-server
-    profiles:
-      - mc-proxy
-    restart: on-failure:3
-    env_file:
-      - env/proxy.env
-    environment:
-      INIT_MEMORY: "512M"
-      MAX_MEMORY: "2048M"
-    ports:
-      #       Server Minecraft port
-      - "25565:25577"
-      #       Server Minecraft Bedrock port (GeyserMC)
-      #- "19132:19132/udp"
-      #       Rcon port
-      #- "25576:25575"
-      #       Plan port
-      # - "8806:8804"
-    volumes:
-      - ./mc-proxy:/server
-    networks:
-      - app-network
-
-
   7dtd-server:
     image: vinanrra/7dtd-server:latest
     container_name: 7dtd-server
@@ -44,12 +16,30 @@ services:
       - env/server.env
     volumes:
       - ./server-data:/home/sdtdserver/.local/share/7DaysToDie/     # 7 Days To Die world saves
-      - ./config-lgsm:/home/sdtdserver/lgsm/config-lgsm/sdtdserver # LGSM config folder
+      - ./config-lgsm:/home/sdtdserver/lgsm/config-lgsm/sdtdserver  # LGSM config folder
       - ./server-files:/home/sdtdserver/serverfiles/                # Optional - serverfiles folder
       - ./server-log:/home/sdtdserver/log/                
-      - ./server-backup:/home/sdtdserver/lgsm/backup/ 
+#      - ./server-backup:/home/sdtdserver/lgsm/backup/ 
     networks:
       - app-network
+
+  7dtd_backup:
+    image: mazzolino/restic:latest
+    container_name: 7dtd_backup
+    profiles:
+      - 7dtd-server
+    depends_on:
+      - 7dtd-server
+    restart: on-failure:5
+    env_file:
+      - env/backup.env
+    volumes:
+      - ./server-backup:/mnt/restic
+      - ./server-data:/data/server-data:ro
+    networks:
+      - app-network
+    security_opt:
+      - no-new-privileges:true
       
 volumes:
   server-data: 
