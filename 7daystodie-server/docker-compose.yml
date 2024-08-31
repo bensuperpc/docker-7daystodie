@@ -19,7 +19,6 @@ services:
       - ./config-lgsm:/home/sdtdserver/lgsm/config-lgsm/sdtdserver  # LGSM config folder
       - ./server-files:/home/sdtdserver/serverfiles/                # Optional - serverfiles folder
       - ./server-log:/home/sdtdserver/log/                
-#      - ./server-backup:/home/sdtdserver/lgsm/backup/ 
     networks:
       - app-network
 

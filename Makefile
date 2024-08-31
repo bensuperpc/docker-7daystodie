@@ -23,19 +23,11 @@ DOCKER := docker
 PROFILE := 7dtd-server
 PROFILE_CMD := $(addprefix --profile ,$(PROFILE))
 
-# mc-web
-
 COMPOSE_FILE := docker-compose.yml
 
-AUTHOR := vinanrra
-
-IMAGE_NAME := 7dtd-server
-
-IMAGE_AUTHOR := $(addprefix itzg/, $(IMAGE_NAME))
-
-IMAGE_FULL_NAME := $(addsuffix :latest, $(IMAGE_AUTHOR))
-
 SERVER_PATH := 7daystodie-server
+
+COMPOSE_DIR := --project-directory ./7daystodie-server
 
 .PHONY: build all
 all: start
@@ -67,9 +59,12 @@ state:
 	docker-compose -f $(SERVER_PATH)/$(COMPOSE_FILE) top
 
 .PHONY: update
-update:
-	echo $(IMAGE_FULL_NAME) | xargs -n1 docker pull
+update: update-docker
 	#git pull --recurse-submodules --all --progress
+
+.PHONY: update-docker
+update-docker:
+	docker compose $(SERVER_PATH)/$(COMPOSE_FILE) $(PROFILE_CMD) pull
 
 .PHONY: clean
 clean: $(SUBDIRS)
