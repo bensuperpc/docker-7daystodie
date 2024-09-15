@@ -55,9 +55,7 @@ services:
       - 7daystodie_backup:/mnt/restic
       - 7daystodie_backup_cache:/.cache
       - 7daystodie_server_save:/data/.local/share/7DaysToDie:ro
-      - 7daystodie_server_config_lgsm:/data/lgsm/config-lgsm/sdtdserver:ro
-      - 7daystodie_server_file:/data/serverfiles:ro
-      - 7daystodie_server_log:/data/log:ro
+      
     networks:
       - 7daystodie_network
     security_opt:
