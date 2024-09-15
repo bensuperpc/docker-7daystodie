@@ -16,13 +16,12 @@ services:
     volumes:
       - 7daystodie_openssh_config:/config
       - ./openssh/config/authorized_keys:/authorized_ssh_keys:ro
-      - 7daystodie_openssh_config:/7daystodie_server/openssh_config
-      - 7daystodie_backup:/7daystodie_server/backup
-      - 7daystodie_server_save:/7daystodie_server/save
-      - 7daystodie_server_config_lgsm:/7daystodie_server/config_lgsm
-      - 7daystodie_server_file:/7daystodie_server/file
-      - 7daystodie_server_log:/7daystodie_server/log
-      - 7daystodie_backup_cache:/7daystodie_server/backup_cache
+      - 7daystodie_backup:/7daystodie_backup
+      - 7daystodie_server_save:/7daystodie_server_save
+      - 7daystodie_server_config_lgsm:/7daystodie_server_config_lgsm
+      - 7daystodie_server_file:/7daystodie_server_file
+      - 7daystodie_server_log:/7daystodie_server_log
+      - 7daystodie_backup_cache:/7daystodie_server_backup_cache
     networks:
       - 7daystodie_network
     security_opt:
