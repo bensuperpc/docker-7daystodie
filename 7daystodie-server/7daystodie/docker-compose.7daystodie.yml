@@ -46,8 +46,8 @@ services:
       - GID=${PGID:-1000}
     profiles:
       - 7daystodie_backup
-#    depends_on:
-#      - 7daystodie_server
+    depends_on:
+      - 7daystodie_server
     restart: on-failure:5
     env_file:
       - ./7daystodie/env/7daystodie_backup.env

@@ -5,6 +5,7 @@ services:
     profiles:
       - main_7daystodie
     volumes:
+      - 7daystodie_server_chown:/7daystodie_server:rw
       - 7daystodie_openssh_config:/7daystodie_server/openssh_config:rw
       - 7daystodie_server_save:/7daystodie_server/save:rw
       - 7daystodie_server_config_lgsm:/7daystodie_server/config_lgsm:rw
@@ -24,6 +25,8 @@ services:
     command: chown -R ${PUID:-1000}:${PGID:-1000} /7daystodie_server
 
 volumes:
+  7daystodie_server_chown:
+    name: 7daystodie_server_chown
   7daystodie_openssh_config:
     name: 7daystodie_openssh_config
   7daystodie_backup:
