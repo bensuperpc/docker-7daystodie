@@ -6,9 +6,6 @@ services:
     profiles:
       - 7daystodie_server
     restart: on-failure:5
-    depends_on:
-      main_7daystodie:
-        condition: service_completed_successfully
     ports:
       - "26900:26900"
       - "26901:26901"
@@ -30,6 +27,8 @@ services:
       - PGID=${PGID:-1000}
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - SYS_ADMIN
     deploy:
       resources:
         limits:
@@ -40,10 +39,6 @@ services:
   7daystodie_backup:
     image: mazzolino/restic:latest
     container_name: 7daystodie_backup
-    user: "${PUID:-1000}:${PGID:-1000}"
-    environment:
-      - UID=${PUID:-1000}
-      - GID=${PGID:-1000}
     profiles:
       - 7daystodie_backup
     depends_on:
@@ -53,19 +48,18 @@ services:
       - ./7daystodie/env/7daystodie_backup.env
     volumes:
       - 7daystodie_backup:/mnt/restic
-      - 7daystodie_backup_cache:/.cache
-      - 7daystodie_server_save:/data/.local/share/7DaysToDie:ro
-      
-    networks:
-      - 7daystodie_network
+      - 7daystodie_server_save:/data:ro
     security_opt:
       - no-new-privileges:true
+    network_mode: none
+    cap_drop:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
 
 volumes:
   7daystodie_backup:
     name: 7daystodie_backup
-  7daystodie_backup_cache:
-    name: 7daystodie_backup_cache
   7daystodie_server_save:
     name: 7daystodie_server_save
   7daystodie_server_config_lgsm:
@@ -74,3 +68,8 @@ volumes:
     name: 7daystodie_server_file
   7daystodie_server_log:
     name: 7daystodie_server_log
+
+networks:
+  7daystodie_network:
+    driver: bridge
+    name: 7daystodie_network

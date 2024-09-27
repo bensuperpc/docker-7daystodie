@@ -15,7 +15,7 @@ SERVER_DIRECTORY := 7daystodie-server
 
 DOCKER := docker
 
-PROFILES := main_7daystodie 7daystodie_server 7daystodie_backup 7daystodie_openssh
+PROFILES := 7daystodie_server 7daystodie_backup 7daystodie_openssh
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 COMPOSE_FILES :=  $(shell find . -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')

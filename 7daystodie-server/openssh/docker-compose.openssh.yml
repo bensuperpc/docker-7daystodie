@@ -21,11 +21,12 @@ services:
       - 7daystodie_server_config_lgsm:/7daystodie_server_config_lgsm
       - 7daystodie_server_file:/7daystodie_server_file
       - 7daystodie_server_log:/7daystodie_server_log
-      - 7daystodie_backup_cache:/7daystodie_server_backup_cache
     networks:
       - 7daystodie_network
     security_opt:
-      - no-new-privileges:true
+      - no-new-privileges:false
+    cap_drop:
+      - SYS_ADMIN
     ports:
       - 2222:2222
 
@@ -34,8 +35,6 @@ volumes:
     name: 7daystodie_openssh_config
   7daystodie_backup:
     name: 7daystodie_backup
-  7daystodie_backup_cache:
-    name: 7daystodie_backup_cache
   7daystodie_server_save:
     name: 7daystodie_server_save
   7daystodie_server_config_lgsm:
