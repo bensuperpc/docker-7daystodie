@@ -19,9 +19,9 @@ services:
       - 7daystodie_server_file:/home/sdtdserver/serverfiles                # Optional - serverfiles folder
       - 7daystodie_server_log:/home/sdtdserver/log   
     networks:
-      - 7daystodie_network
+      - infra-network
     env_file:
-      - ./7daystodie/env/7daystodie.env
+      - ./env/7daystodie.env
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
@@ -36,27 +36,6 @@ services:
         reservations:
           memory: 4G
 
-  7daystodie_backup:
-    image: mazzolino/restic:latest
-    container_name: 7daystodie_backup
-    profiles:
-      - 7daystodie_backup
-    depends_on:
-      - 7daystodie_server
-    restart: on-failure:5
-    env_file:
-      - ./7daystodie/env/7daystodie_backup.env
-    volumes:
-      - 7daystodie_backup:/mnt/restic
-      - 7daystodie_server_save:/data:ro
-    security_opt:
-      - no-new-privileges:true
-    network_mode: none
-    cap_drop:
-      - NET_ADMIN
-      - NET_RAW
-      - SYS_ADMIN
-
 volumes:
   7daystodie_backup:
     name: 7daystodie_backup
@@ -70,6 +49,6 @@ volumes:
     name: 7daystodie_server_log
 
 networks:
-  7daystodie_network:
+  infra-network:
     driver: bridge
-    name: 7daystodie_network
+    name: infra-network
