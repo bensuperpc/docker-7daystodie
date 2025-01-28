@@ -11,7 +11,7 @@
 #//                                                          //
 #//////////////////////////////////////////////////////////////
 
-PROJECT_DIRECTORY := 7daystodie
+PROJECT_DIRECTORY := 7daystodie-server
 
 DOCKER_PROFILES := 7daystodie_server 7daystodie_openssh 7daystodie_backup
 
